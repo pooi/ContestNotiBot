@@ -97,9 +97,7 @@ def sendNotification(bot, mydb):
                 # 새롭게 파싱한 목록에서 몇번째 인덱스인지 확인
                 # 혹시 이전에 기록된 공모전 소개 페이지가 이후 삭제되었을 경우를 대비해
                 # 새롭게 파싱한 목록에서 찾을 수 있을때까지 반복
-                #test = parData
-                #test[0]['title'] = "rrr"
-                #tempIndex = parser.findListIndex(test, b)
+
                 tempIndex = parser.findListIndex(parData, b)
                 if tempIndex != -1: # 찾았을 경우 (못 찾을 경우 -1이 리턴됨)
 
@@ -139,10 +137,7 @@ def sendNotification(bot, mydb):
             cid = data[0]
             p = Process(target=sendContest, args=(bot, mydb, cid, messageList))
             p.start()
-            #for msg in messageList:
-            #    bot.send_message(cid, msg)
 
-    # SendNotification End
 
 def sendContest(bot, mydb, cid, messageList):
     ''' 공모전 알림을 사용자들에게 전송함 '''
