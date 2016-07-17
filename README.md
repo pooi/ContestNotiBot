@@ -47,6 +47,9 @@ import MySQLdb
 ```
 
 * BeautifulSoup<br>
+```
+$ sudo pip install beautifulsoup4
+```
 ```python
 from bs4 import BeautifulSoup
 ```
