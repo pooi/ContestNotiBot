@@ -96,10 +96,12 @@ administratorChatID = '<INPUT_YOUT_TELEGRAM_CHAT_ID>'
 <br>
 
 ## Bot Commands
-공모전 알림 봇은 2개의 명령어를 사용합니다.
+공모전 알림 봇은 4개의 명령어를 사용합니다.
 ```
-/start    최초 시작시 사용되는 명령어입니다.
-/help     도움말을 보여줍니다.
+/start        최초 시작시 사용되는 명령어입니다.
+/subscribe    공모전 알림을 설정합니다.(/start와 동일)
+/unsubscribe  공모전 알림을 해제합니다.
+/help         도움말을 보여줍니다.
 ```
 
 <br>
