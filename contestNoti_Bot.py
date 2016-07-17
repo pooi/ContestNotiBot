@@ -10,7 +10,7 @@ from ContestParser import *
 from MyScheduler import * # import Scheduler
 from SupportMysql import * # import SQL support class
 
-from multiprocessing import Process
+import threading
 
 # Telegram interface
 import telebot
@@ -41,6 +41,11 @@ start_message_True=( # 데이터베이스에 성공적으로 사용자를 저장
     "<INPUT_YOUR_MESSAGE>"
 )
 start_message_False=( # 데이터베이스에 이미 저장되있는 사용자일 경우
+    "<INPUT_YOUR_MESSAGE>"
+)
+
+# /unsubscribe 명령어를 사용하였을때 전송할 메시지
+unsubscribe_message = (
     "<INPUT_YOUR_MESSAGE>"
 )
 
@@ -133,10 +138,10 @@ def sendNotification(bot, mydb):
     if memberList == 'error': # DB에서 가져올때 에러값이 리턴되었을 경우
         bot.send_message(administratorChatID, "DB 에러 확인 요망") # 관리자에게 에러 메시지 전송
     else:
-        for data in memberList: # 사용자들에게 메시지 전송 (전송 속도를 위해 멀티 프로세싱 사용)
+        for data in memberList: # 사용자들에게 메시지 전송 (전송 속도를 위해 스레드 사용)
             cid = data[0]
-            p = Process(target=sendContest, args=(bot, mydb, cid, messageList))
-            p.start()
+            t = threading.Thread(target=sendContest, args=(bot, mydb, cid, messageList))
+            t.start()
 
 
 def sendContest(bot, mydb, cid, messageList):
@@ -160,8 +165,8 @@ if __name__ == '__main__':
     scheduler.scheduler('cron', "1", sendNotification, bot, mydb) # 7~20시 사이에 10분 간격으로 동작
     pass
 
-# When receive '/start' command
-@bot.message_handler(commands=['start'])
+# When receive '/start, /subscribe' command
+@bot.message_handler(commands=['start', 'subscribe'])
 def send_start(m):
     ''' Register user chatID in the database  '''
     cid = m.chat.id # Get chat ID
@@ -170,7 +175,7 @@ def send_start(m):
     markup = types.ReplyKeyboardHide() # Keyboard markup
 
     if check: # Send success message
-        msg = start_message_True.format(name, name, cid) + '\n' + help_message
+        msg = start_message_True.format(name, name, cid) + '\n\n' + help_message
         try:
             bot.send_message(cid, msg, reply_markup=markup)
         except telebot.apihelper.ApiException as e:
@@ -182,6 +187,21 @@ def send_start(m):
             bot.send_message(cid, msg, reply_markup=markup)
         except telebot.apihelper.ApiException as e:
             pass
+
+# When receive '/unsubscribe' command
+@bot.message_handler(commands=['unsubscribe'])
+def subscribe(m):
+    ''' 데이터베이스에서 구독 정보를 삭제함 '''
+    cid = m.chat.id
+    name = m.chat.last_name + m.chat.first_name  # Get user name
+
+    msg = mydb.deleteMsg('memberTbl', "chatID = '{}'".format(cid))
+    check = mydb.setCommand(msg)
+
+    if check:  # DB에서 정상적으로 명령어를 실행하였을 경우
+        bot.send_message(cid, unsubscribe_message.format(name=name))
+    else:
+        bot.send_message(administratorChatID, "DB 멤버삭제 에러")  # 관리자에게 에러 메시지 전송
 
 # When receive '/help' command
 @bot.message_handler(commands=['help'])
@@ -199,7 +219,7 @@ def send_help(m):
 def bot_restart(m):
     ''' Register user chatID in a database  '''
     cid = m.chat.id # Get chat ID
-    if cid == administratorChatID:
+    if str(cid) == administratorChatID:
         bot.send_message(cid, "봇을 재시작합니다.")
         os.system("<INPUT_YOUR_RESTART_COMMAND>")
     else:
