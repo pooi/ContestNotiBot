@@ -6,6 +6,8 @@ sys.setdefaultencoding('utf-8')
 import urllib
 from bs4 import BeautifulSoup
 
+
+
 from datetime import datetime, timedelta
 
 
@@ -13,15 +15,19 @@ class ContestParser:
     ''' 웹 사이트를 파싱함. siteList 혹은 siteNameList 변수를 통해 지원하는 사이트를 확인할 수 있음 '''
 
     # 지원하는 사이트 목록
-    siteList = ['detizen', 'saramin', 'campusmon', 'allcon', 'wevity']
-    siteNameList = ['대티즌', '사람인', '캠퍼스몬', '올콘', '위비티']
+    siteList = ['detizen', 'campusmon', 'allcon', 'wevity']
+    #siteNameList = ['대티즌', '캠퍼스몬', '올콘', '위비티']
+    siteNameList = {
+            'detizen' : '대티즌',
+            'campusmon' : '캠퍼스몬',
+            'allcon' : '올콘',
+            'wevity' : '위비티'
+        }
 
     def returnParsingData(self, siteName):
 
         if siteName == 'detizen':
             return self.detizenParsing()
-        elif siteName == 'saramin':
-            return self.saraminParsing()
         elif siteName == 'campusmon':
             return self.campusmonParsing()
         elif siteName == 'allcon':
@@ -30,6 +36,13 @@ class ContestParser:
             return self.wevityParsing()
         else:
             return 'error'
+
+    def returnSiteName(self, site):
+        try:
+            return self.siteNameList[site]
+        except:
+            return 'error'
+
 
     def detizenParsing(self):
         try:
@@ -56,39 +69,6 @@ class ContestParser:
                     temp['period'] = period
                     temp['url'] = url
                     parsingData.append(temp)
-
-            if len(parsingData) == 0:
-                return 'error'
-            else:
-                return parsingData
-        except:
-            return 'error'
-
-    def saraminParsing(self):
-        try:
-            mainURL = 'http://contests.saramin.co.kr/contests?saramin_category=C001&page=1'.encode("UTF-8")
-            html = urllib.urlopen(mainURL)
-            soup = BeautifulSoup(html, "html.parser")
-
-            temp = []
-            find = soup.find_all("td")
-            for data in find:
-                temp.append(data)
-
-            parsingData = []
-
-            for i in range(len(find) / 5):
-                tempDic = {}
-                index = i * 5
-                sponsor = temp[index].text
-                title = temp[index + 1].text
-                url = "http://contests.saramin.co.kr" + str(temp[index + 1].find('a')['href'])
-                period = temp[index + 2].text
-                tempDic['sponsor'] = sponsor
-                tempDic['title'] = title
-                tempDic['period'] = period
-                tempDic['url'] = url
-                parsingData.append(tempDic)
 
             if len(parsingData) == 0:
                 return 'error'
