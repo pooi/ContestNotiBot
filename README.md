@@ -22,7 +22,6 @@ Contact & Help : ldayou@me.com<br>
 
 <ul type=square>
   <li>대티즌 <a href="http://www.detizen.com/">detizen.com</a><br>
-  <li>사람인 공모전 <a href="http://contests.saramin.co.kr/">contests.saramin.co.kr</a><br>
   <li>캠퍼스몬 <a href="http://campusmon.jobkorea.co.kr/">campusmon.jobkorea.co.kr</a><br>
   <li>allcontests <a href="http://all-con.co.kr/">all-con.co.kr</a><br>
   <li>위비티 <a href="http://www.wevity.com/">wevity.com</a><br>
