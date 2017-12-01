@@ -10,27 +10,34 @@ License : MIT License<br>
 Contact & Help : ldayou@me.com<br>
 
 
-## 개발에 참고한 문서
+<br>
+
+## Overview
+ContestNotiBot will notify you via a telegram when a new contest is updated on the site that provides the contest information.
+<br><br>
+
+## Reference
 ><a href="https://github.com/eternnoir/pyTelegramBotAPI">https://github.com/eternnoir/pyTelegramBotAPI</a><br>
 ><a href="http://www.hardcopyworld.com/gnuboard5/bbs/board.php?bo_table=lecture_rpi&wr_id=38">http://www.hardcopyworld.com/gnuboard5/bbs/board.php?bo_table=lecture_rpi&wr_id=38</a><br>
 ><a href="http://www.clien.net/cs2/bbs/board.php?bo_table=lecture&wr_id=324116&page=2">http://www.clien.net/cs2/bbs/board.php?bo_table=lecture&wr_id=324116&page=2</a>
 
 <br>
 
-## 공모전 사이트
->각각의 공모전 사이트에게 감사합니다.
+## 공모전 사이트 (Site)
+>각각의 공모전 사이트에게 감사합니다. (Thank you for each site administrator.)
 
 <ul type=square>
-  <li>대티즌 <a href="http://www.detizen.com/">detizen.com</a><br>
-  <li>캠퍼스몬 <a href="http://campusmon.jobkorea.co.kr/">campusmon.jobkorea.co.kr</a><br>
+  <li>대티즌(Detizen) <a href="http://www.detizen.com/">detizen.com</a><br>
+  <li>캠퍼스몬(Campusmon) <a href="http://campusmon.jobkorea.co.kr/">campusmon.jobkorea.co.kr</a><br>
   <li>allcontests <a href="http://all-con.co.kr/">all-con.co.kr</a><br>
-  <li>위비티 <a href="http://www.wevity.com/">wevity.com</a><br>
+  <li>위비티(Wevity) <a href="http://www.wevity.com/">wevity.com</a><br>
 </ul>
 
 <br>
 
 ## Notice
 >공모전 알림 봇은 <a href="https://core.telegram.org/bots/api">Telegram cli</a>, <a href="https://github.com/eternnoir/pyTelegramBotAPI">pyTelegramBotAPI</a>, MySQL, BeautifulSoup, apscheduler, 파이썬 2.7을 사용합니다.<br>
+ContestNotiBot use <a href="https://core.telegram.org/bots/api">Telegram cli</a>, <a href="https://github.com/eternnoir/pyTelegramBotAPI">pyTelegramBotAPI</a>, MySQL, BeautifulSoup, apscheduler, and Python 2.7.<br>
 
 * pyTelegramBotAPI<br>
 <a href="http://www.hardcopyworld.com/gnuboard5/bbs/board.php?bo_table=lecture_rpi&wr_id=8&page=1">http://www.hardcopyworld.com/gnuboard5/bbs/board.php?bo_table=lecture_rpi&wr_id=8&page=1</a>
@@ -67,17 +74,20 @@ from apscheduler.schedulers.background import BackgroundScheduler
 <br>
 
 ## Usage
->기본적인 설정은 위의 링크대로 진행해주세요.<br>
+>기본적인 설정은 위의 링크대로 진행해주세요. (Please follow the above link for basic setting.)<br>
 
-이 프로젝트를 사용하기 위해서는 <a href="https://telegram.me/botfather">@BotFather</a>(<a href="https://core.telegram.org/bots#3-how-do-i-create-a-bot">안내</a>)를 통해 api key를 획득한 후 사용해주세요.
+이 프로젝트를 사용하기 위해서는 <a href="https://telegram.me/botfather">@BotFather</a>(<a href="https://core.telegram.org/bots#3-how-do-i-create-a-bot">안내</a>)를 통해 api key를 획득한 후 사용해주세요.<br>
+To use this project, please acquire the API key through <a href="https://telegram.me/botfather">@BotFather</a> (<a href="https://core.telegram.org/bots#3-how-do-i-create-a-bot">guide</a>) and use it.
 
-획득한 api key를 <a href="https://github.com/pooi/ContestNotiBot/blob/master/contestNoti_Bot.py">`contestNoti_Bot.py`</a>에 입력해주세요.
+획득한 api key를 <a href="https://github.com/pooi/ContestNotiBot/blob/master/contestNoti_Bot.py">`contestNoti_Bot.py`</a>에 입력해주세요.<br>
+Please enter the acquired api key in <a href="https://github.com/pooi/ContestNotiBot/blob/master/contestNoti_Bot.py">`contestNoti_Bot.py`</a>.
 ```python
 API_TOKEN = '<INPUT_YOUR_API_KEY>'
 bot = telebot.TeleBot(API_TOKEN)
 ```
 
-MySQL과 연동을 위해 <a href="https://github.com/pooi/ContestNotiBot/blob/master/contestNoti_Bot.py">`contestNoti_Bot.py`</a>에 Host, ID, Password, DB Name을 입력해주세요.
+MySQL과 연동을 위해 <a href="https://github.com/pooi/ContestNotiBot/blob/master/contestNoti_Bot.py">`contestNoti_Bot.py`</a>에 Host, ID, Password, DB Name을 입력해주세요.<br>
+Enter the Host, ID, Password, and DB Name in <a href="https://github.com/pooi/ContestNotiBot/blob/master/contestNoti_Bot.py">`contestNoti_Bot.py`</a> to work with MySQL.
 ```python
 # Connect database
 host = '<INPUT_YOUR_DATABASE_SERVER_HOST>'
@@ -87,7 +97,8 @@ db_name = '<INPUT_YOUR_DATABASE_NAME>'
 db = MySQLdb.connect( host, db_id, db_pw, db_name, charset='utf8') # Encoding utf-8
 ```
 
-혹시 자신에게 메시지를 전송하고 싶다면 편의를 위해 자신의 Chat ID를 기록해두세요.
+혹시 자신에게 메시지를 전송하고 싶다면 편의를 위해 자신의 Chat ID를 기록해두세요.<br>
+If you want to send a message to yourself, record your Chat ID for your convenience.
 ```python
 administratorChatID = '<INPUT_YOUT_TELEGRAM_CHAT_ID>'
 ```
@@ -95,18 +106,20 @@ administratorChatID = '<INPUT_YOUT_TELEGRAM_CHAT_ID>'
 <br>
 
 ## Bot Commands
-공모전 알림 봇은 4개의 명령어를 사용합니다.
+공모전 알림 봇은 4개의 명령어를 사용합니다.<br>
+ContestNotiBot use four commands.
 ```
-/start        최초 시작시 사용되는 명령어입니다.
-/subscribe    공모전 알림을 설정합니다.(/start와 동일)
-/unsubscribe  공모전 알림을 해제합니다.
-/help         도움말을 보여줍니다.
+/start        최초 시작시 사용되는 명령어입니다. (Initial startup command)
+/subscribe    공모전 알림을 설정합니다.(/start와 동일) (Subscribe ContestNotiBot)
+/unsubscribe  공모전 알림을 해제합니다. (Unsubscribe ContestNotiBot)
+/help         도움말을 보여줍니다. (Help)
 ```
 
 <br>
 
 ## How it works
-공모전 알림 봇은 07시 ~ 20시까지 10분 간격으로 사이트들을 확인하여 새로운 공모전이 업데이트 되었을 경우 이를 사용자에게 전송합니다.
+공모전 알림 봇은 10분 간격으로 사이트들을 확인하여 새로운 공모전이 업데이트 되었을 경우 이를 사용자에게 전송합니다.<br>
+ContestNotiBot check sites every 10 minutes, and send contest information to users if they post new contest.
 
 <br>
 
